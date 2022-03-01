@@ -11,48 +11,49 @@ class BestBooks extends React.Component {
     }
   }
 
-  /* TODO: Make a GET request to your API to fetch books for the logged in user  */
+  /* DONE: Make a GET request to your API to fetch books for the logged in user  */
 
 
   getBooks = async () => {
     let bookData = [];
     try {
       let url = `${process.env.REACT_APP_SER}/books`
-      bookData = await axios.get(url)
-      console.log(bookData);
+      bookData = await (await axios.get(url))
+      this.setState({
+        books: bookData.data
+      })
     } catch(error){
       console.log(error)
-      
     }
-    return bookData.data;
   }
 
   componentDidMount() {
-    let bookData = this.getBooks();
-    this.setState({
-      books: bookData
-    })
+    this.getBooks();
   }
 
 
   render() {
-
-    /* TODO: render user's books in a Carousel */
-    let bookCarousel = (
-      <Carousel>
-        <Carousel.Item>
-          <Carousel.Caption>
-            PLACEHOLDER
-          </Carousel.Caption>
+    console.log(this.state.books);
+    /* DONE: render user's books in a Carousel */
+    let carouselElems = this.state.books.map (book => ( 
+        <Carousel.Item 
+          className="text-center mb-3 bg-warning"
+          key={book._id}
+        >
+          <h3>{book.title}</h3>
+          <p>{book.description}</p>
+          <p>{book.email}</p>
         </Carousel.Item>
-      </Carousel>
+      )
     );
     return (
       <>
         <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
 
         {this.state.books.length > 0 ?  (
-          {bookCarousel}
+          <Carousel variant="dark">
+             {carouselElems}
+          </Carousel>
         ) : (
           <h3>No Books Found :(</h3>
         )}
