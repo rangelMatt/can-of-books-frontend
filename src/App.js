@@ -15,7 +15,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
+      user: {
+        name: 'Jeffrey',
+        email: 'jeffrey@notcodefellows.com'
+      }
     }
   }
 
@@ -26,6 +29,7 @@ class App extends React.Component {
   }
 
   logoutHandler = () => {
+    console.log('something')
     this.setState({
       user: null,
     })
@@ -35,7 +39,7 @@ class App extends React.Component {
     return (
       <>
         <Router>
-          <Header user={this.state.user} onLogout={this.logoutHandler} />
+          <Header user={this.state.user} logoutHandler={this.logoutHandler} />
           <Switch>
             <Route exact path="/">
               <BestBooks/>
@@ -43,7 +47,7 @@ class App extends React.Component {
             </Route>
             {/* DONE: add a route with a path of '/profile' that renders a `Profile` component */}
             <Route exact path="/Profile">
-              <Profile />
+              <Profile user={this.state.user}/>
               {/* TODO: if the user is logged in, render the `BestBooks` component, if they are not, render the `Login` component */}
             </Route>
           </Switch>
