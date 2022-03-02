@@ -45,7 +45,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/">
               {this.state.user ?
-                (<BestBooks />) : (<Login loginHandler={this.loginHandler}/>)
+                (<BestBooks user={this.state.user}/>) : (<Login loginHandler={this.loginHandler}/>)
               }
             </Route>
             {/* DONE: add a route with a path of '/profile' that renders a `Profile` component */}
