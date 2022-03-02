@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Button, Carousel } from 'react-bootstrap';
 import BookFormModal from './BookFormModal';
+import Book from './Book';
 
 
 class BestBooks extends React.Component {
@@ -29,7 +30,7 @@ class BestBooks extends React.Component {
     }
   }
 
-  postBook = async (e) =>{
+  postBook = async (e) => {
     e.preventDefault();
     let newBook = {
       title: e.target.title.value,
@@ -49,19 +50,32 @@ class BestBooks extends React.Component {
     }
   }
 
+  deleteHandler = async (e, id) => {
+    e.preventDefault();
+
+
+    try {
+      let url = `${process.env.REACT_APP_SER}/books/${id}`
+      await axios.delete(url)
+      this.getBooks();
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   componentDidMount() {
     this.getBooks();
   }
 
-  
+
   showModal = () => {
-    this.setState({displayForm: true})
+    this.setState({ displayForm: true })
   }
 
   handleClose = () => {
-    this.setState({displayForm: false})
+    this.setState({ displayForm: false })
   }
- 
+
 
   render() {
     console.log(this.state.books);
@@ -69,18 +83,17 @@ class BestBooks extends React.Component {
     let carouselElems = this.state.books.map(book => (
       <Carousel.Item
         className="text-center mb-3 bg-warning"
-        key={book._id}
-      >
-        <h3>{book.title}</h3>
-        <p>{book.description}</p>
-        <p>{book.email}</p>
+        key={book._id}>
+        <Book
+          book={book}
+          deleteHandler={this.deleteHandler} />
       </Carousel.Item>
     ));
     return (
       <>
         <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
         <Button onClick={this.showModal}>Add Book</Button>
-        <BookFormModal 
+        <BookFormModal
           displayForm={this.state.displayForm}
           handleClose={this.handleClose}
           postBook={this.postBook}
