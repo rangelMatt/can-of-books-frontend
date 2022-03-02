@@ -22,7 +22,7 @@ class BestBooks extends React.Component {
       this.setState({
         books: bookData.data
       })
-    } catch(error){
+    } catch (error) {
       console.log(error)
     }
   }
@@ -35,24 +35,24 @@ class BestBooks extends React.Component {
   render() {
     console.log(this.state.books);
     /* DONE: render user's books in a Carousel */
-    let carouselElems = this.state.books.map (book => ( 
-        <Carousel.Item 
-          className="text-center mb-3 bg-warning"
-          key={book._id}
-        >
-          <h3>{book.title}</h3>
-          <p>{book.description}</p>
-          <p>{book.email}</p>
-        </Carousel.Item>
-      )
+    let carouselElems = this.state.books.map(book => (
+      <Carousel.Item
+        className="text-center mb-3 bg-warning"
+        key={book._id}
+      >
+        <h3>{book.title}</h3>
+        <p>{book.description}</p>
+        <p>{book.email}</p>
+      </Carousel.Item>
+    )
     );
     return (
       <>
         <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
 
-        {this.state.books.length > 0 ?  (
+        {this.state.books.length > 0 ? (
           <Carousel variant="dark">
-             {carouselElems}
+            {carouselElems}
           </Carousel>
         ) : (
           <h3>No Books Found :(</h3>
