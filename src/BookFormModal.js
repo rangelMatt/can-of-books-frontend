@@ -5,13 +5,12 @@ import ModalHeader from "react-bootstrap/esm/ModalHeader";
 class BookFormModal extends Component {
 
   render() {
-    
     return (
       <Modal show={this.props.displayForm} onHide={this.props.handleClose}>
         <ModalDialog>
-          <ModalHeader closeButton="true">Add book!</ModalHeader>
+          <ModalHeader closeButton="true">Book form</ModalHeader>
           <ModalBody>
-            <Form onSubmit={this.props.postBook}>
+            <Form onSubmit={this.props.submitHandler}>
               <Form.Group controlId="title">
                 <Form.Control placeholder="title"/>
               </Form.Group>

@@ -38,6 +38,7 @@ class BestBooks extends React.Component {
       status: e.target.status.value,
       email: this.props.user.email
     }
+    console.log(newBook)
     try {
       let url = `${process.env.REACT_APP_SER}/books`
       let createdBook = await axios.post(url, newBook)
@@ -52,11 +53,21 @@ class BestBooks extends React.Component {
 
   deleteHandler = async (e, id) => {
     e.preventDefault();
-
-
     try {
       let url = `${process.env.REACT_APP_SER}/books/${id}`
       await axios.delete(url)
+      this.getBooks();
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  putBook = async (bookToUpdate) => {
+    try {
+      let url = `${process.env.REACT_APP_SER}/books/${bookToUpdate._id}`
+      console.log(bookToUpdate)
+      let createdBook = await axios.put(url, bookToUpdate)
+      console.log(createdBook);
       this.getBooks();
     } catch (error) {
       console.log(error)
@@ -86,7 +97,9 @@ class BestBooks extends React.Component {
         key={book._id}>
         <Book
           book={book}
-          deleteHandler={this.deleteHandler} />
+          deleteHandler={this.deleteHandler} 
+          putBook={this.putBook}
+        />
       </Carousel.Item>
     ));
     return (
@@ -96,7 +109,7 @@ class BestBooks extends React.Component {
         <BookFormModal
           displayForm={this.state.displayForm}
           handleClose={this.handleClose}
-          postBook={this.postBook}
+          submitHandler={this.postBook}
         />
         {this.state.books.length > 0 ? (
           <Carousel variant="dark">
