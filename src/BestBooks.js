@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Button, Carousel } from 'react-bootstrap';
 import BookFormModal from './BookFormModal';
 import Book from './Book';
-
+import { withAuth0 } from '@auth0/auth0-react'
 
 class BestBooks extends React.Component {
   constructor(props) {
@@ -19,24 +19,44 @@ class BestBooks extends React.Component {
 
   getBooks = async () => {
     let bookData = [];
-    try {
-      let url = `${process.env.REACT_APP_SER}/books`
-      bookData = await axios.get(url)
-      this.setState({
-        books: bookData.data
-      })
-    } catch (error) {
-      console.log(error)
+    if(this.props.auth0.isAuthenticated){
+      // Get Token
+      const res = await this.props.auth0.getIdTokenClaims();
+
+      const jwt = res.__raw;
+
+      // console.log(jwt);
+
+      // All we need to do for lab is console.log the jwt
+      // Sending the token from the front-end is not required.
+      try {
+        // As per axios docs we can send an config object to make our call as well
+        const config = {
+          method: 'get',
+          baseUrl: process.env.REACT_APP_SER,
+          url: '/books',
+          headers: {"Authorization": `Bearer ${jwt}`}
+        }
+
+        // let url = `${process.env.REACT_APP_SER}/books`
+        bookData = await axios(config);
+        this.setState({
+          books: bookData.data
+        })
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
   postBook = async (e) => {
     e.preventDefault();
+    console.log()
     let newBook = {
       title: e.target.title.value,
       description: e.target.description.value,
       status: e.target.status.value,
-      email: this.props.user.email
+      email: this.props.auth0.user.email
     }
     console.log(newBook)
     try {
@@ -123,4 +143,4 @@ class BestBooks extends React.Component {
   }
 }
 
-export default BestBooks;
+export default withAuth0(BestBooks);

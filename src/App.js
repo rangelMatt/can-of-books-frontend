@@ -8,8 +8,10 @@ import {
   Route
 } from "react-router-dom";
 import BestBooks from './BestBooks';
-import Profile from './Profile';
+// import Profile from './Profile';
+import AuthProfile from './AuthProfile'
 import Login from './Login';
+import { withAuth0 } from '@auth0/auth0-react'
 
 class App extends React.Component {
 
@@ -35,19 +37,20 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.props.auth0.user)
     return (
       <>
         <Router>
           <Header user={this.state.user} logoutHandler={this.logoutHandler} />
           <Switch>
             <Route exact path="/">
-              {this.state.user ?
+              {this.props.auth0.isAuthenticated ?
                 (<BestBooks user={this.state.user}/>) : (<Login loginHandler={this.loginHandler}/>)
               }
             </Route>
             {/* DONE: add a route with a path of '/profile' that renders a `Profile` component */}
             <Route exact path="/Profile">
-              <Profile user={this.state.user} />
+              <AuthProfile />
               {/* DONE: if the user is logged in, render the `BestBooks` component, if they are not, render the `Login` component */}
             </Route>
           </Switch>
@@ -58,4 +61,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withAuth0(App);
