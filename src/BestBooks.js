@@ -21,9 +21,9 @@ class BestBooks extends React.Component {
     let bookData = [];
     if(this.props.auth0.isAuthenticated){
       // Get Token
-      const res = await this.props.auth0.getIdTokenClaims();
+      // const res = await this.props.auth0.getIdTokenClaims();
 
-      const jwt = res.__raw;
+      // const jwt = res.__raw;
 
       // All we need to do for lab is console.log the jwt
       // Sending the token from the front-end is not required.
