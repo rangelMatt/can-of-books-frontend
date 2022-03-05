@@ -25,49 +25,39 @@ class BestBooks extends React.Component {
 
       const jwt = res.__raw;
 
-      // console.log(jwt);
+      console.log(jwt);
 
       // All we need to do for lab is console.log the jwt
       // Sending the token from the front-end is not required.
       try {
-        // As per axios docs we can send an config object to make our call as well
-        const config = {
-          method: 'get',
-          baseUrl: process.env.REACT_APP_SER,
-          url: '/books',
-          headers: {"Authorization": `Bearer ${jwt}`}
-        }
-
-        // let url = `${process.env.REACT_APP_SER}/books`
-        bookData = await axios(config);
+        let url = `${process.env.REACT_APP_SER}/books`
+        bookData = await axios.get(url)
         this.setState({
           books: bookData.data
         })
       } catch (error) {
-        console.log(error)
+        console.error(error)
       }
     }
   }
 
   postBook = async (e) => {
     e.preventDefault();
-    console.log()
     let newBook = {
       title: e.target.title.value,
       description: e.target.description.value,
       status: e.target.status.value,
       email: this.props.auth0.user.email
     }
-    console.log(newBook)
     try {
       let url = `${process.env.REACT_APP_SER}/books`
       let createdBook = await axios.post(url, newBook)
-      console.log(createdBook);
       this.setState({
         books: [...this.state.books, createdBook.data]
       })
+      this.handleClose();
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
@@ -78,19 +68,17 @@ class BestBooks extends React.Component {
       await axios.delete(url)
       this.getBooks();
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
   putBook = async (bookToUpdate) => {
     try {
       let url = `${process.env.REACT_APP_SER}/books/${bookToUpdate._id}`
-      console.log(bookToUpdate)
-      let createdBook = await axios.put(url, bookToUpdate)
-      console.log(createdBook);
+      await axios.put(url, bookToUpdate)
       this.getBooks();
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
@@ -109,7 +97,6 @@ class BestBooks extends React.Component {
 
 
   render() {
-    console.log(this.state.books);
     /* DONE: render user's books in a Carousel */
     let carouselElems = this.state.books.map(book => (
       <Carousel.Item
