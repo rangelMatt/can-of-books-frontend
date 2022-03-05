@@ -23,7 +23,8 @@ class Book extends React.Component {
     bookToUpdate.description = e.target.description.value;
     bookToUpdate.status = e.target.status.value;
 
-    this.props.putBook(bookToUpdate)
+    this.props.putBook(bookToUpdate);
+    this.handleClose();
   }
 
   render() {
