@@ -23,21 +23,18 @@ class App extends React.Component {
   }
 
   loginHandler = (user) => {
-    console.log(user)
     this.setState({
       user,
     })
   }
 
   logoutHandler = () => {
-    console.log('something')
     this.setState({
       user: null,
     })
   }
 
   render() {
-    console.log(this.props.auth0.user)
     return (
       <>
         <Router>
