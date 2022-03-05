@@ -25,8 +25,6 @@ class BestBooks extends React.Component {
 
       const jwt = res.__raw;
 
-      console.log(jwt);
-
       // All we need to do for lab is console.log the jwt
       // Sending the token from the front-end is not required.
       try {
