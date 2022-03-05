@@ -14,7 +14,7 @@ class Login extends React.Component {
             Click Below to Log In
           </Card.Text>
           <AuthLoginButton />
-          {/* TODO: add a `LoginButton` component here that will log the user in */}
+          {/* DONE: add a `LoginButton` component here that will log the user in */}
         </Card.Body>
       </Card>
     )
